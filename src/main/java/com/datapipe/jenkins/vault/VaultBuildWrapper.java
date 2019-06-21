@@ -122,6 +122,7 @@ public class VaultBuildWrapper extends SimpleBuildWrapper {
 
     private List<LogicalResponse> provideEnvironmentVariablesFromVault(Context context, Run build) {
         String url = getConfiguration().getVaultUrl();
+        String nameSpace = getConfiguration().getVaultNamespace();
 
         if (StringUtils.isBlank(url)) {
             throw new VaultPluginException("The vault url was not configured - please specify the vault url to use.");
@@ -129,7 +130,7 @@ public class VaultBuildWrapper extends SimpleBuildWrapper {
 
         VaultCredential credential = retrieveVaultCredentials(build);
 
-        vaultAccessor.init(url, credential, configuration.isSkipSslVerification());
+        vaultAccessor.init(url, nameSpace, credential, configuration.isSkipSslVerification());
         ArrayList<LogicalResponse> responses = new ArrayList<>();
         for (VaultSecret vaultSecret : vaultSecrets) {
             try {

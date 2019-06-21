@@ -99,6 +99,7 @@ node {
   // (e.g. folder or global) will be used
   def configuration = [$class: 'VaultConfiguration',
                        vaultUrl: 'http://my-very-other-vault-url.com',
+                       vaultNamespace: 'mynamespace',
                        vaultCredentialId: 'my-vault-cred-id']
 
   // inside this block your credentials will be available as env variables

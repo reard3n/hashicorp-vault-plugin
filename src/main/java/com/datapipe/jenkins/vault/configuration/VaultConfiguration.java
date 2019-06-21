@@ -24,6 +24,8 @@ import hudson.util.ListBoxModel;
 public class VaultConfiguration extends AbstractDescribableImpl<VaultConfiguration> implements Serializable {
     private String vaultUrl;
 
+    private String vaultNamespace;
+
     private String vaultCredentialId;
 
     private boolean failIfNotFound = true;
@@ -35,14 +37,16 @@ public class VaultConfiguration extends AbstractDescribableImpl<VaultConfigurati
     }
 
     @DataBoundConstructor
-    public VaultConfiguration(String vaultUrl, String vaultCredentialId, boolean failIfNotFound) {
+    public VaultConfiguration(String vaultUrl, String vaultNamespace, String vaultCredentialId, boolean failIfNotFound) {
         this.vaultUrl = normalizeUrl(vaultUrl);
+        this.vaultNamespace = vaultNamespace;
         this.vaultCredentialId = vaultCredentialId;
         this.failIfNotFound = failIfNotFound;
     }
 
     public VaultConfiguration(VaultConfiguration toCopy) {
         this.vaultUrl = toCopy.getVaultUrl();
+        this.vaultNamespace = toCopy.getVaultNamespace();
         this.vaultCredentialId = toCopy.getVaultCredentialId();
         this.failIfNotFound = toCopy.failIfNotFound;
     }
@@ -58,12 +62,19 @@ public class VaultConfiguration extends AbstractDescribableImpl<VaultConfigurati
         if (StringUtils.isBlank(result.getVaultUrl())) {
             result.setVaultUrl(parent.getVaultUrl());
         }
+        if (StringUtils.isBlank(result.getVaultNamespace())) {
+            result.setVaultNamespace(parent.getVaultNamespace());
+        }
         result.failIfNotFound = failIfNotFound;
         return result;
     }
 
     public String getVaultUrl() {
         return vaultUrl;
+    }
+
+    public String getVaultNamespace() {
+        return vaultNamespace;
     }
 
     public String getVaultCredentialId() {
@@ -73,6 +84,10 @@ public class VaultConfiguration extends AbstractDescribableImpl<VaultConfigurati
     @DataBoundSetter
     public void setVaultUrl(String vaultUrl) {
         this.vaultUrl = normalizeUrl(vaultUrl);
+    }
+
+    public void setVaultNamespace(String vaultNamespace) {
+        this.vaultNamespace = vaultNamespace;
     }
 
     @DataBoundSetter
